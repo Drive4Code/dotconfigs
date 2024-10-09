@@ -38,12 +38,16 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   
 
   # Configure keymap in X11
    services.xserver.xkb.layout = "it";
    services.xserver.xkb.options = "eurosign:e,caps:escape";
+
+  # Enable fcron
+  services.fcron.enable = true;
 
   # Enable CUPS to print documents.
    services.printing.enable = true;
@@ -87,11 +91,16 @@ displayManager.sessionCommands = ''
      firefox
      tree
      ungoogled-chromium
+     # School
+     xournalpp
+     rclone
+     libreoffice-qt6-still
      # Programming setup 
      vscodium-fhs
      git
      bun
      rustup
+     python312
    ];
  };
 
@@ -102,7 +111,16 @@ displayManager.sessionCommands = ''
    wget
    btop
    git
+   unzip
+   blueman
+   ffmpeg-full
+   gcc
  ];
+
+  # Enable bluetooth
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+ services.blueman.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -126,7 +144,7 @@ displayManager.sessionCommands = ''
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
-   system.copySystemConfiguration = true;
+   # system.copySystemConfiguration = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
